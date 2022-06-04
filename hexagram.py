@@ -8,11 +8,22 @@ table = [
   '―――――――――――'
 ]
 
+
+#######################################
+# Kennedy Method (see link)
+######################################
 # this is for the most nitpicky calculation of probablities for how
 # the yarrow stalks were thrown and interpretted according to the blurb 
 # by/[about Andrew Kennedy](https://en.wikipedia.org/wiki/I_Ching_divination#Dice)
 # according to his analysis the odds are 8/38 moving yang, 2/38 moving yin, 11/38 static yang,
-# and 17/38 static yin
+# and 17/38 static yin. These probabilities can be achieved using a 19-sided die and a coin which I 
+# simulate below:
+# | c | d  |  P    | line     |
+# |---|----|-------|----------|
+# |0  |<=2 |2/38   |mov yin   |
+# |0  | >2 |17/38  |stat yin  | 
+# |1  |<=8 |8/38   |mov yan   |
+# |1  | >8 |11/39  |stat yan  |
 
 # create coin toss and die toss function
 c = lambda: numIn(0,1)
