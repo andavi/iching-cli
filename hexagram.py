@@ -39,16 +39,16 @@ def getLines():
   # table[1], so a binary zero needs to stay left in that case and v.v.
   hx = [int(str(l[0]) +  str(int(l[1] > 2 if l[0] == 0 else l[1] > 8)),2) for l in h]
 
+
   # get lines that match rolls
-  return [table[i] for i in hx].append(hx.split())
+  return [table[i] for i in hx], hx
 
 
-
-hexagram = getLines();
+gua, mx = getLines();
 
 # print from first line at botttom up as is traditional
 for i in range(5,-1,-1):
-  print(hexagram[i])
+  print(gua[i], mx[i])
   
   
 def movingLinesToOne(hexagram):
@@ -58,5 +58,5 @@ def movingLinesToOne(hexagram):
   # the transition is the correct amount of info for a reading (or less ie no moving lines is fine).
   # For this reason The Complete I Ching outlines an algorithm to get any readings w/ moving lines down to the single
   # important moving line.. That is what this function does.
-  
+  metahex = hexagram[6]
   
