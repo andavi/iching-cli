@@ -58,25 +58,45 @@ def movingLinesToOne(metahex):
   # the transition is the correct amount of info for a reading (or less ie no moving lines is fine).
   # For this reason The Complete I Ching outlines an algorithm to get any readings w/ moving lines down to the single
   # important moving line.. That is what this function does.
+  print(metahex)
   umx = list(metahex)
   
   # only looking for moving lines which are coded 0 and 2 in our table at top so search and count evens
+  def moving(n):
+    return not n % 2
+  
   movingLines = [n for n in umx if n % 2 == 0]
+
   print(movingLines)
   numMovingLines = len(movingLines)
+  
+    
   
   # if <= 1 then no work needs to be done - all good. return to sender
   if numMovingLines <= 1:
     return metahex
+  
   # if two moving lines and different types: consult yin only
   if numMovingLines == 2 and len(set(movingLines)) == 2:
     return [3 if l == 2 else l for l in umx ]
+  
   # if two moving lines the same => consult upper only
   if numMovingLines == 2:
-    for i in range(6):
-      if umx[i] % 2 ==0:
+    for i, n in enumerate(umx):
+      if moving(n):
+        umx[i] += 1
+        return umx
+    
+  # if three moving lines consult central only
+  if numMovingLines == 3:
+    for i, n in enumerate(umx):
+      if moving(n):
+        umx[i] += 1
+        break;
+    for i, n in reversed(list(enumerate(umx))):
+      if moving(n):
         umx[i] += 1
         return umx
   
   
-print(movingLinesToOne([1,1,3,3,2,2]))
+print(movingLinesToOne([1,2,3,3,2,2]))
