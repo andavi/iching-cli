@@ -105,6 +105,11 @@ def movingLinesToOne(metahex):
         umx[i] -= 1
         return [l + 1 if moving(l) else l for l in umx[:i]] +[umx[i]] + [l+1 if moving(l) else l for l in umx[i+1:]]
       
+  # if 5 moving, consult only nonmoving
+  if numMovingLines == 5:
+    return [l + 1 if moving(l) else l - 1 for l in umx]
+
+
   
   
-print(movingLinesToOne([1,2,0,1,2,2]))
+print(movingLinesToOne([0,2,0,1,2,2]))
