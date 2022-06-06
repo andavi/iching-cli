@@ -97,6 +97,14 @@ def movingLinesToOne(metahex):
       if moving(n):
         umx[i] += 1
         return umx
+      
+  # if 4 moving, consolut upper nonmoving
+  if numMovingLines == 4:
+    for i, n in reversed(list(enumerate(umx))):
+      if not moving(n):
+        umx[i] -= 1
+        return [l + 1 if moving(l) else l for l in umx[:i]] +[umx[i]] + [l+1 if moving(l) else l for l in umx[i+1:]]
+      
   
   
-print(movingLinesToOne([1,2,3,3,2,2]))
+print(movingLinesToOne([1,2,0,1,2,2]))
