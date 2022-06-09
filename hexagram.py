@@ -1,12 +1,29 @@
 from random import randint as numIn
 
-
+# for the changing line calculations
 table = [
   '―――― X ――――',
   '――――   ――――',
   '―――――Θ―――――',
   '―――――――――――'
 ]
+
+# for the gua's w/o moving lines where 0 is yin and 1 in yang
+key = [table[1], table[3]]
+
+
+# this is to convert the coded guas to just zeros and ones for ease of printing,
+# converting, and special caees
+def sanitize(gx):
+  return [l>>1 for l in gx]
+
+# this returns the opposite of the inputted gua for all changing lines case
+# not yet assuming all zeros and ones a bitwise NOT operator oughtta do it
+def toOpposite(gx):
+  # return [~l for l in gx]
+  # return [int(not bool(l)) for l in gx]
+  return [(l - 1) % 4 for l in gx]
+  
 
 
 def getLines():
@@ -44,12 +61,11 @@ def getLines():
   return [table[i] for i in hx], hx
 
 
-# gua, mx = getLines();
+# print from first line at botttom up as is traditional
+def printGuaDebug(gua, mx):
+  for i in range(5,-1,-1):
+    print(gua[i], mx[i])
 
-# # print from first line at botttom up as is traditional
-# for i in range(5,-1,-1):
-#   print(gua[i], mx[i])
-  
   
 def movingLinesToOne(metahex):
   # As per Master Huang's instructions there should be only one or less moving lines.
@@ -58,16 +74,22 @@ def movingLinesToOne(metahex):
   # the transition is the correct amount of info for a reading (or less ie no moving lines is fine).
   # For this reason The Complete I Ching outlines an algorithm to get any readings w/ moving lines down to the single
   # important moving line.. That is what this function does.
-  print(metahex)
+  # print(metahex)
   umx = list(metahex)
   
+  
+  
+  # Helpers
+  ################
   # only looking for moving lines which are coded 0 and 2 in our table at top so search and count evens
   def moving(n):
     return not n % 2
-  
-  movingLines = [n for n in umx if n % 2 == 0]
 
-  print(movingLines)
+  ###################
+  
+  movingLines = [n for n in umx if moving(n)]
+
+  # print(movingLines)
   numMovingLines = len(movingLines)
   
     
@@ -109,7 +131,27 @@ def movingLinesToOne(metahex):
   if numMovingLines == 5:
     return [l + 1 if moving(l) else l - 1 for l in umx]
 
-
+  # means all six lines are chaning - a spcecial case where the original gua becomes
+  # the pointed to gua using all six changing linkes (aka its opposite)
+  else:
+    return toOpposite(umx)
+    # return sanitize(umx)
+  
+def drawnGua(hx):
+  return [table[l] for l in hx]
+  
+def printGua(gua):
+  print()
+  for i in range(5,-1,-1):
+    print(gua[i])  
+  print()  
   
   
-print(movingLinesToOne([0,2,0,1,2,2]))
+  
+  
+mx = [0,3,2,2,1,2] 
+gua = drawnGua(mx)
+# gua, mx = getLines()
+printGua(gua)  
+hx = movingLinesToOne(mx)
+printGua(drawnGua(hx))
